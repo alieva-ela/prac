@@ -40,6 +40,18 @@ def file_save_as():
             raise NameError("Error")
     except:
         messagebox.showinfo("Ошибка", "Не удалось сохранить!")
+
+def undo():
+    try:
+        text.edit_undo()
+    except Exception:
+        messagebox.showinfo("Undo","Никаких изменений не осталось, чтобы отменить.")
+
+def redo():
+    try:
+        text.edit_redo()
+    except Exception:
+        messagebox.showinfo("Redo","Нечего исправить.")
  
  
 f_top = Frame(r)
@@ -47,6 +59,12 @@ f_bot = Frame(r)
  
 f_top.pack()
 f_bot.pack(expand=1, fill=BOTH)
+
+b_open = Button(f_top, text="Undo", padx=3, command=undo)
+b_open.pack(side=RIGHT, padx=2)
+
+b_open = Button(f_top, text="Redo", padx=3, command=redo)
+b_open.pack(side=RIGHT, padx=2)
 
 b_open = Button(f_top, text="Save as", padx=3, command=file_save_as)
 b_open.pack(side=RIGHT, padx=2)
@@ -63,7 +81,7 @@ scroll_y.pack(side=RIGHT, fill=Y)
 scroll_x = Scrollbar(f_bot, orient=HORIZONTAL)
 scroll_x.pack(side=BOTTOM, fill=X, anchor=W)
  
-text = Text(f_bot, width=80, height=20, wrap=NONE, yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
+text = Text(f_bot, width=80, height=20, wrap=NONE, yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set, undo=True)
 text.pack(expand=1, fill=BOTH)
  
 scroll_y.config(command=text.yview)
